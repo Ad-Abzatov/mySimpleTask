@@ -36,7 +36,12 @@ class PostController {
   }
 
   async create (req: Request, res: Response) {
-    const posts = await prisma.post.create({data: req.body});
+    const posts = await prisma.post.create({data: {
+      title: req.body.title,
+      author: {
+        connect: {id: req.body.authorId}
+      }
+    }});
     return res.send(posts);
   }
 
